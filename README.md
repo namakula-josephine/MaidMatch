@@ -41,3 +41,9 @@ Some of the screen shots
 [authentication](Screenshot_20230810-191113.jpg)
 [otp side](Screenshot_20230810-191134.jpg)
 [options page](Screenshot_20230810-191219.jpg)
+
+Contact
+For any inquiries, suggestions, or support, please email us at contact@maidmatch_app.com 
+            or 
+visit our website https://claireagaba.github.io/maidmatch/maid_match/
+
