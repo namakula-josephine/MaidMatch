@@ -34,3 +34,10 @@ Ratings and Reviews: Both maids and employers can provide feedback through ratin
 Booking and Scheduling: The app includes a convenient booking and scheduling system, ensuring smooth coordination between maids and employers for job assignments.
 
 Notifications: Users receive real-time notifications for new job opportunities, messages, and updates, ensuring that no opportunities are missed.
+
+
+Some of the screen shots
+[welcome screen](Screenshot_20230810-191103.jpg)
+[authentication](Screenshot_20230810-191113.jpg)
+[otp side](Screenshot_20230810-191134.jpg)
+[options page](Screenshot_20230810-191219.jpg)
