@@ -14,3 +14,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+MaidMatch is a revolutionary Flutter-based mobile application designed to seamlessly connect maids with potential employers. This app simplifies the process of finding trustworthy domestic help while providing maids with better employment opportunities. Whether you're a homeowner seeking reliable cleaning assistance or a maid looking for job opportunities, MaidMatch has you covered.
