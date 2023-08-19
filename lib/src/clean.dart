@@ -135,7 +135,7 @@ final TextEditingController _nameController = TextEditingController();
                 'maid_id':'',
                'id': id,
                 'category':'House Clean',
-                 'status':'Pending'
+                 'status':'Pendinggf'
                });
                  Fluttertoast.showToast(
         msg: 'Order Placed Succesfully',

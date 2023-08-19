@@ -5,6 +5,7 @@ import '../utils/app_styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:maidmatch_app/src/orderdetails.dart';
 
 class checkout extends StatefulWidget {
   const checkout({super.key});
@@ -14,14 +15,9 @@ class checkout extends StatefulWidget {
 }
 
 class _checkoutState extends State<checkout> {
-final _auth = FirebaseAuth.instance;
+
    
-final Stream<QuerySnapshot> _usersStream =
-   FirebaseFirestore.instance
-              .collection('Laundry order')
-              .where('category',isEqualTo: 'Laundry')
-            //  .where('userid', isEqualTo:  '${FirebaseAuth.instance.currentUser?.uid}')
-              .snapshots();
+
      final CollectionReference userCollection =
       FirebaseFirestore.instance.collection('orders');
 
@@ -55,8 +51,17 @@ final Stream<QuerySnapshot> _usersStream =
             itemBuilder: (context, index) {
               final userData = activeUsers[index].data() as Map<String, dynamic>;
                var date = userData['date'];
+               bool shouldShowButton = false;
+               bool shouldShowViewButton = false;
+               if (userData['status']=='Pending' ){
+                shouldShowButton = true;
+                shouldShowViewButton = false;
+               } else {
+                shouldShowViewButton = true;
+                shouldShowButton = false;
+               }
                if (date != null){
-                   date = DateFormat('yyyy-MM-dd').format(userData['start-time'].toDate().toLocal()).toString()+'         '+DateFormat('h:mm a').format(userData['date'].toDate()).toString();
+                   date = DateFormat('yyyy-MM-dd').format(userData['date'].toDate().toLocal()).toString()+'         '+DateFormat('h:mm a').format(userData['start-time'].toDate()).toString();
                } else {
                 date = '';
                }
@@ -64,7 +69,29 @@ final Stream<QuerySnapshot> _usersStream =
                 title: Row(
                   children: [
                     Text(userData['category'] ?? ''),SizedBox(width: 100),
-                    ElevatedButton(onPressed: (){}, child: Text('Remove'))
+                    Visibility(
+                      visible:shouldShowButton,
+                      child: ElevatedButton(
+                        
+                        onPressed: (){
+                        FirebaseFirestore.instance.collection('orders').doc('${userData['id']}').delete();
+                      }, child: Text('Remove')),
+                    ), Visibility(
+                      visible:shouldShowViewButton,
+                      child: ElevatedButton(
+                        
+                        onPressed: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OrderDetails(
+                  userId: '${userData['userid']}',
+                  orderId: '${userData['id']}',
+                ),
+              ),
+            );
+                      }, child: Text('View')),
+                    )
                   ],
                 ),
                 subtitle: Row(
