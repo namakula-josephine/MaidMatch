@@ -140,17 +140,13 @@ class _bookpage1State extends State<bookpage1> {
                   ),
                   GestureDetector(
                     onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => Customform())));
                       },
                     child: Container(
                       width: 150,
                       height: 150,
                       child: const Center(
                         child: Text(
-                          "CUSTOM\nORDER",
+                          "",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 18,

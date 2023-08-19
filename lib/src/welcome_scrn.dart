@@ -48,7 +48,7 @@ class _welcomeScreenState extends State<welcomeScreen> {
                     onPressed: (){
                       ap.isSignedIn == true?//when true, then fetch shared preferences data
                        Navigator.push(context, 
-                      MaterialPageRoute(builder: (context) => const  HomeScreen(),))
+                      MaterialPageRoute(builder: (context) => const  homeScreen(),))
                       :Navigator.push(context, MaterialPageRoute(builder: (context) => const signIn(),));
                     }),
                   )

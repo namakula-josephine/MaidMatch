@@ -176,7 +176,7 @@ void storeData () async {
         profilePic: image!,
         onSuccess:(){
           ap.saveUserDataToSP().then((value) => Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context)=> const HomeScreen()), (route) => false));
+          MaterialPageRoute(builder: (context)=> const homeScreen()), (route) => false));
         },
       );
      }else{
