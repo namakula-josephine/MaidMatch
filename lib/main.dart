@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:maidmatch_app/provider/auth_provider.dart';
 import 'package:maidmatch_app/src/welcome_scrn.dart';
+import 'package:maidmatch_app/utils/user.dart';
 import 'package:provider/provider.dart';
 
 
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: welcomeScreen(),
+        home: user(),
         title: "MAID MATCH",
       ),
     );
