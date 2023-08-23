@@ -13,23 +13,13 @@ class maidperm extends StatefulWidget {
 }
 
 class _maidpermState extends State<maidperm> {
-  List<String> docIDs = [];
+         final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('permanentAvail');
 
-  Future docID() async {
-    await FirebaseFirestore.instance.collection('users').get().then(
-          (snapshot) => snapshot.docs.forEach((document) {
-            print(document.reference);
-            docIDs.add(document.reference.id);
-          }),
-        );
-  }
-
-  @override
-  void initState() {
-    docID();
-    // TODO: implement initState
-    super.initState();
-  }
+  // Stream documents where the 'status' field is equal to 'active'
+  Stream<QuerySnapshot> streamOrders() {
+    return userCollection.where('name').snapshots();
+  }   
 
   @override
   Widget build(BuildContext context) {
@@ -42,15 +32,35 @@ class _maidpermState extends State<maidperm> {
           ),
         ),
         backgroundColor: Styles.backgColor,
-        body: Expanded(child:
-            FutureBuilder<DocumentSnapshot>(builder: (context, snapshot) {
-          return ListView.builder(
-              itemCount: docIDs.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: getperm(documentId: docIDs[index]),
-                );
-              });
-        })));
+        body: StreamBuilder<QuerySnapshot>(
+        stream: streamOrders(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+
+        if(snapshot.hasData){
+
+          print(snapshot.data);
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
+        }
+            return ListView();
+
+
+
+
+
+
+  }
+  
+
+
+  )
+  
+  
+  );
   }
 }

@@ -9,7 +9,7 @@ class getperm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CollectionReference maids =
-        FirebaseFirestore.instance.collection("users");
+        FirebaseFirestore.instance.collection("permanentAvail");
     return FutureBuilder<DocumentSnapshot>(
       future: maids.doc(documentId).get(),
       builder: ((context, snapshot) {
@@ -17,7 +17,7 @@ class getperm extends StatelessWidget {
         Map<String, dynamic> data =
             snapshot.data!.data() as Map<String, dynamic>;
 
-        return Text('datat: ${data['name']}');
+        print('${data['name']}');
       }
       return Text('loading...');
     }));
