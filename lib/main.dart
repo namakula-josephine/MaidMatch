@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: user(),
+        home: welcomeScreen(),
         title: "MAID MATCH",
       ),
     );

@@ -173,7 +173,7 @@ class _LaundryformState extends State<Laundryform> {
                  'maid_id':'',
                 'id': id,
                 'category':'Laundry',
-                 'status':'Pendings'
+                 'status':'Pending'
                });
                  Fluttertoast.showToast(
         msg: 'Order made succesfully',
