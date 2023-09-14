@@ -7,6 +7,67 @@ import 'package:intl/intl.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 
+
+class GetOrderDetails extends StatelessWidget {
+  final String documentId;
+
+  GetOrderDetails(this.documentId);
+ 
+
+      bool visible_cancel = true;
+       bool visible_complete = true;
+  @override
+  Widget build(BuildContext context) {
+    CollectionReference orders = FirebaseFirestore.instance.collection('orders');
+
+     Stream<QuerySnapshot> streamOrders() {
+    return orders.where('phoneNumber', isEqualTo:  '${documentId}').snapshots();
+  } 
+
+    return FutureBuilder<DocumentSnapshot>(
+      future: orders.doc(documentId).get(),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+
+        if (snapshot.hasError) {
+          return Text("Something went wrong");
+        }
+
+        if (snapshot.hasData && !snapshot.data!.exists) {
+          return Text("Document does not exist");
+        }
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+           final startdate =DateFormat('yyyy-MM-dd').format(data['date'].toDate().toLocal()).toString();
+           if (data['status']=='In Progress'){
+            visible_cancel =true;
+            visible_complete=true;
+           }else{
+             visible_cancel =false;
+            visible_complete=false;
+           }
+          return Column(
+            children: [
+                ListTile(
+                    title: Text(data['category']??''),
+                    subtitle: Text(data['status']??''),
+                  ),
+           
+          
+            ],
+          );
+        }
+
+        return Text("loading");
+
+        
+      },
+    );
+  }
+}
+
+
 class OrderDetails extends StatefulWidget {
   final String userId;
   final String orderId;
@@ -20,9 +81,9 @@ class OrderDetails extends StatefulWidget {
 class _OrderDetailsState extends State<OrderDetails> {
 
      final CollectionReference userCollection =
-      FirebaseFirestore.instance.collection('orders');
+      FirebaseFirestore.instance.collection('maid');
    Stream<QuerySnapshot> streamOrders() {
-    return userCollection.where('id', isEqualTo:  '${widget.orderId}').snapshots();
+    return userCollection.where('phoneNumber', isEqualTo:  '${widget.userId}').snapshots();
   }   
 
   
@@ -37,6 +98,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           if (snapshot.hasError) {
             return Text('Something went wrong');
           }
+         
     
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Text("Loading");
@@ -45,35 +107,26 @@ class _OrderDetailsState extends State<OrderDetails> {
           return ListView(
             children: snapshot.data!.docs.map((DocumentSnapshot document) {
             Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-            final date = DateFormat('yyyy-MM-dd').format(data['date'].toDate()).toString();
-            if (data['category']=='Laundry'){
-              
-              return ListTile(
-                title: Text(data['quantity']??''),
-                subtitle: Row(
-                  children: [
-                    Text('Start Date'),SizedBox(width: 20,),Text(date)
-                  ],
-                ),
-              );}
-               else if (data['category']=='Baby Sitter') {
-                final startdate = DateFormat('h:mm a').format(data['start-time'].toDate()).toString();
-              return ListTile(
-                title: Text(data['quantity']??''),
-                subtitle:  Row(
-                  children: [
-                    Text('Start Date'),SizedBox(width: 20,),Text(date),SizedBox(width: 40,),Text('Start time'),SizedBox(width: 20,),Text(startdate)
-                  ],
-                ),
-              );}  
-                else  {
-              return ListTile(
-                title: Text(data['category']??''),
-                subtitle: Text(data['status']??''),
-              );}
+           
+              return Column(
+                children: [  
+                       Center(
+        child: CircleAvatar(
+          radius: 80, // Adjust the size as needed
+          backgroundImage: Image.network(data['profilePic']??"https://cdn.vectorstock.com/i/preview-1x/66/14/default-avatar-photo-placeholder-profile-picture-vector-21806614.jpg").image,
+        ),
+      ),
+                  ListTile(
+                    title: Text(data['name']??''),
+                    subtitle: Text(data['phoneNumber']??''),
+                  ),GetOrderDetails(widget.orderId)
+                ],
+              );   
+
             }).toList(),
           );
         },
+
       ),
     );
   }

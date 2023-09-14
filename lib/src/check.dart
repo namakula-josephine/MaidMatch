@@ -85,7 +85,7 @@ class _checkoutState extends State<checkout> {
               context,
               MaterialPageRoute(
                 builder: (context) => OrderDetails(
-                  userId: '${userData['userid']}',
+                  userId: '${userData['maid_id']}',
                   orderId: '${userData['id']}',
                 ),
               ),
